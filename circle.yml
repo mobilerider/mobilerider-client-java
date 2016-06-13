@@ -1,0 +1,4 @@
+test:
+  override:
+    - mkdir -p $CIRCLE_TEST_REPORTS
+    - cp "Test Results - All_in_test.xml" $CIRCLE_TEST_REPORTS

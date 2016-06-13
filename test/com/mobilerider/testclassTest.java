@@ -13,13 +13,18 @@ public class testclassTest {
     }
 
     @Test
-    public void test1() {
+    public void successfulTest() {
 
         //Retrofit retrofit = new Retrofit.Builder().baseUrl(new HttpUrl()).build();
 //                .baseUrl(new String("https://api.mobilerider.com/api/"))
   //              .build();
 
     //    MobileRiderInterface service = retrofit.create(MobileRiderInterface.class);
+    }
+
+    @Test(expected=Exception.class)
+    public void failingTest() {
+
     }
 
     @org.junit.After
