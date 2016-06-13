@@ -15,7 +15,7 @@ public class testclassTest {
     @Test
     public void test1() {
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(new HttpUrl()).build();
+        //Retrofit retrofit = new Retrofit.Builder().baseUrl(new HttpUrl()).build();
 //                .baseUrl(new String("https://api.mobilerider.com/api/"))
   //              .build();
 
