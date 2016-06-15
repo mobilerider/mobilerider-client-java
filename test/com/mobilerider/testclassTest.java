@@ -1,5 +1,9 @@
 package com.mobilerider;
 
+import java.io.IOException;
+import java.util.List;
+
+import okhttp3.HttpUrl;
 import org.junit.Test;
 import retrofit2.Retrofit;
 
@@ -13,13 +17,9 @@ public class testclassTest {
     }
 
     @Test
-    public void successfulTest() {
+    public void successfulTest() throws IOException {
 
-        //Retrofit retrofit = new Retrofit.Builder().baseUrl(new HttpUrl()).build();
-//                .baseUrl(new String("https://api.mobilerider.com/api/"))
-  //              .build();
 
-    //    MobileRiderInterface service = retrofit.create(MobileRiderInterface.class);
     }
 
     @Test(expected=Exception.class)
