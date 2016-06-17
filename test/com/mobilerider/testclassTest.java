@@ -18,8 +18,9 @@ public class testclassTest {
 
     @Test
     public void successfulTest() throws IOException {
+        MobileRiderApiClientInterface client = MobileRiderApiClient.create("0e1c3c87eafc51fb3c3aedd958010bf2", null);
 
-
+        Channel channel = client.channel("19100").execute().body();
     }
 
     @Test(expected=Exception.class)

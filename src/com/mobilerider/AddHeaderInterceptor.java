@@ -63,8 +63,8 @@ class AddHeaderInterceptor implements Interceptor
         Request request = chain.request();
 
         request = request.newBuilder()
-                .addHeader(getHeaderName(), getHeaderValue())
-                .build();
+            .addHeader(getHeaderName(), getHeaderValue())
+            .build();
 
         return chain.proceed(request);
     }

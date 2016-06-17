@@ -1,10 +1,13 @@
 package com.mobilerider;
 
-import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
-
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MobileRiderApiClient
 {
@@ -14,7 +17,8 @@ public class MobileRiderApiClient
     {
     }
 
-    public static MobileRiderApiClientInterface create(String appId, String secret) throws IllegalArgumentException {
+    public static MobileRiderApiClientInterface create(String appId, String secret) throws IllegalArgumentException
+    {
         if (appId == null || appId.length() == 0)
         {
             throw new IllegalArgumentException("appId");
@@ -43,11 +47,17 @@ public class MobileRiderApiClient
             builder.interceptors().add(interceptor);
         }
 
-        builder.build();
+        OkHttpClient client = builder.build();
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Channel.class, new MobileRiderEntityDeserializer<Channel>());
+        Gson gson = gsonBuilder.create();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .build();
+            .baseUrl(BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build();
 
         return retrofit.create(MobileRiderApiClientInterface.class);
     }

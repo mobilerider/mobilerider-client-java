@@ -1,7 +1,16 @@
 package com.mobilerider;
 
-/**
- * Created by nelson on 6/11/2016.
- */
-public class Channel {
+public class Channel
+{
+    String id;
+
+    public String getId() {
+        return id;
+    }
+
+    String name;
+
+    public String getName() {
+        return name;
+    }
 }

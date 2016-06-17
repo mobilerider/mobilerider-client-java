@@ -68,8 +68,8 @@ class AddQueryStringParameterInterceptor implements Interceptor
             .build();
 
         request = request.newBuilder()
-                .url(url)
-                .build();
+            .url(url)
+            .build();
 
         return chain.proceed(request);
     }
