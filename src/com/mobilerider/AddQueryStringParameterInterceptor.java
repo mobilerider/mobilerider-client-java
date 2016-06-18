@@ -59,8 +59,12 @@ class AddQueryStringParameterInterceptor implements Interceptor
     }
 
     @Override
-    public okhttp3.Response intercept(Chain chain) throws IOException
-    {
+    public okhttp3.Response intercept(Chain chain) throws IOException, IllegalArgumentException {
+        if (chain == null)
+        {
+            throw new IllegalArgumentException("chain");
+        }
+
         Request request = chain.request();
 
         HttpUrl url = request.url().newBuilder()

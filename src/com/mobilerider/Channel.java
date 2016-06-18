@@ -1,16 +1,43 @@
 package com.mobilerider;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Channel
 {
-    String id;
+    @SerializedName("id")
+    String _id;
 
     public String getId() {
-        return id;
+        return _id;
     }
 
-    String name;
+    public void setId(String id) {
+        _id = id;
+    }
 
-    public String getName() {
-        return name;
+    @SerializedName("name")
+    String _name;
+
+    public String getName()
+    {
+        return _name;
+    }
+
+    public void setName(String name)
+    {
+        _name = name;
+    }
+
+    @SerializedName("description")
+    String _description;
+
+    public String getDescription()
+    {
+        return _description;
+    }
+
+    public void setDescription(String description)
+    {
+        _description = description;
     }
 }
