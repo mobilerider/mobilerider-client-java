@@ -2,6 +2,7 @@ package com.mobilerider;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -50,8 +51,14 @@ public class MobileRiderApiClient
         OkHttpClient client = builder.build();
 
         GsonBuilder gsonBuilder = new GsonBuilder();
+
         gsonBuilder.registerTypeAdapter(Channel.class, new MobileRiderEntityDeserializer<Channel>());
+
         gsonBuilder.registerTypeAdapter(Media.class, new MobileRiderEntityDeserializer<Media>());
+
+        Class<List<Channel>> listOfChannelClass = (Class) List.class;
+        gsonBuilder.registerTypeAdapter(listOfChannelClass, new MobileRiderEntityListDeserializer<Channel>());
+
         Gson gson = gsonBuilder.create();
 
         Retrofit retrofit = new Retrofit.Builder()
