@@ -20,7 +20,13 @@ public class testclassTest {
     public void successfulTest() throws IOException {
         MobileRiderApiClientInterface client = MobileRiderApiClient.create("0e1c3c87eafc51fb3c3aedd958010bf2", null);
 
-        Channel channel = client.channel("19100").execute().body();
+        Channel channel = client.channel("19077").execute().body();
+
+        Page<Channel> channels = client.channelList(1, 5).execute().body();
+
+        Page<Media> videos = client.mediaList(channel.getId(), 1, 5).execute().body();
+
+        Media video = client.media("103701").execute().body();
     }
 
     @Test(expected=Exception.class)

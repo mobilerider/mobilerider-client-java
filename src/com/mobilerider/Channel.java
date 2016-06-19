@@ -11,7 +11,7 @@ public class Channel
         return _id;
     }
 
-    public void setId(String id) {
+    private void setId(String id) {
         _id = id;
     }
 

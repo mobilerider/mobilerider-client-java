@@ -2,6 +2,9 @@ package com.mobilerider;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Media
 {
     @SerializedName("id")
@@ -12,7 +15,7 @@ public class Media
         return _id;
     }
 
-    public void setId(String id)
+    private void setId(String id)
     {
         _id = id;
     }
@@ -30,6 +33,24 @@ public class Media
         _title = title;
     }
 
+    @SerializedName("views")
+    private int _views;
+
+    public int getViews()
+    {
+        return _views;
+    }
+
+    private void setViews(int views)
+    {
+        if (views < 0)
+        {
+            throw new IllegalArgumentException("views");
+        }
+
+        _views = views;
+    }
+
     @SerializedName("description")
     private String _description;
 
@@ -41,5 +62,28 @@ public class Media
     public void setDescription(String description)
     {
         _description = description;
+    }
+
+
+    @SerializedName("thumbnails")
+    private Map<String, String> _thumbnailUris;
+
+    public Map<String, String> getThumbnailUris()
+    {
+        return _thumbnailUris;
+    }
+
+    @SerializedName("files")
+    private Map<String, String> _mediaUris;
+
+    public Map<String, String> getMediaUris()
+    {
+        return _mediaUris;
+    }
+
+    public Media()
+    {
+        _thumbnailUris = new HashMap<String, String>();
+        _mediaUris = new HashMap<String, String>();
     }
 }
