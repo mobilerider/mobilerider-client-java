@@ -26,7 +26,7 @@ class MobileRiderEntityListDeserializer<TEntity> implements JsonDeserializer<Pag
 
         List<TEntity> entities = (new Gson().fromJson(objectsElement, listOfChannelClass));
 
-        Page<TEntity> page = new Page<TEntity>(entities, meta.getPageSize(), meta.getPage() - 1, meta.getTotal());
+        Page<TEntity> page = new Page<TEntity>(entities, meta.getPageSize(), meta.getPage() == 0 ? 0 : meta.getPage() - 1, meta.getTotal());
 
         return page;
     }

@@ -59,6 +59,9 @@ public class MobileRiderApiClient
         Class<Page<Channel>> pageOfChannelClass = (Class) Page.class;
         gsonBuilder.registerTypeAdapter(pageOfChannelClass, new MobileRiderEntityListDeserializer<Channel>());
 
+        Class<Page<Media>> pageOfMediaClass = (Class) Page.class;
+        gsonBuilder.registerTypeAdapter(pageOfMediaClass, new MobileRiderEntityListDeserializer<Media>());
+
         Gson gson = gsonBuilder.create();
 
         Retrofit retrofit = new Retrofit.Builder()

@@ -6,12 +6,12 @@ import retrofit2.Call;
 
 public interface MobileRiderApiClientInterface {
 
-    @GET("channel")
+    @GET("channel?published=1")
     Call<Page<Channel>> channelList(@Query("page") Integer page, @Query("limit") Integer pageSize);
 
     @GET("channel/{id}")
     Call<Channel> channel(@Path("id") String channelId);
 
     @GET("media")
-    Call<Page<Media>> mediaList(@Query("channelid") String channelId, @Query("limit") Integer page, @Query("limit") Integer pageSize);
+    Call<Page<Media>> mediaList(@Query("channelid") String channelId, @Query("page") Integer page, @Query("limit") Integer pageSize);
 }

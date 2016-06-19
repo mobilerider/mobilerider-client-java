@@ -45,7 +45,7 @@ public class Page<T> implements Iterable<T>
 
     public boolean isLast()
     {
-        return getIndex() == getPageCount() - 1;
+        return getIndex() == (getPageCount() == 0 ? 0 : getPageCount() - 1);
     }
 
     public boolean isPaginationNecessary()
