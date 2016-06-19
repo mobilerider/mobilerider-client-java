@@ -3,11 +3,10 @@ package com.mobilerider;
 import com.google.gson.*;
 import java.lang.reflect.Type;
 
-class MobileRiderEntityDeserializer<EntityType> implements JsonDeserializer<EntityType>
+class MobileRiderEntityDeserializer<TEntity> implements JsonDeserializer<TEntity>
 {
     @Override
-    public EntityType deserialize(JsonElement je, Type type, JsonDeserializationContext jdc)
-            throws JsonParseException
+    public TEntity deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException
     {
         // Get the "object" element from the parsed JSON
         JsonElement objectElement = je.getAsJsonObject().get("object");

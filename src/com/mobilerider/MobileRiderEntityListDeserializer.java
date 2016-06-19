@@ -6,10 +6,10 @@ import com.google.gson.annotations.SerializedName;
 import java.lang.reflect.Type;
 import java.util.List;
 
-class MobileRiderEntityListDeserializer<EntityType> implements JsonDeserializer<List<EntityType>>
+class MobileRiderEntityListDeserializer<TEntity> implements JsonDeserializer<Page<TEntity>>
 {
     @Override
-    public List<EntityType> deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException
+    public Page<TEntity> deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException
     {
         // Get the "meta" element from the parsed JSON
         JsonElement metaElement = je.getAsJsonObject().get("meta");
@@ -22,13 +22,19 @@ class MobileRiderEntityListDeserializer<EntityType> implements JsonDeserializer<
 
         // Deserialize it.
         // We use a new instance of Gson to avoid infinite recursion to this deserializer.
-        return new Gson().fromJson(objectsElement, type);
+        Class<List<TEntity>> listOfChannelClass = (Class) List.class;
+
+        List<TEntity> entities = (new Gson().fromJson(objectsElement, listOfChannelClass));
+
+        Page<TEntity> page = new Page<TEntity>(entities, meta.getPageSize(), meta.getPage() - 1, meta.getTotal());
+
+        return page;
     }
 
     private class Meta
     {
         @SerializedName("page")
-        Integer _page;
+        private Integer _page;
 
         public Integer getPage()
         {
@@ -46,7 +52,7 @@ class MobileRiderEntityListDeserializer<EntityType> implements JsonDeserializer<
         }
 
         @SerializedName("limit")
-        Integer _pageSize;
+        private Integer _pageSize;
 
         public Integer getPageSize()
         {
@@ -64,7 +70,7 @@ class MobileRiderEntityListDeserializer<EntityType> implements JsonDeserializer<
         }
 
         @SerializedName("total")
-        Integer _total;
+        private Integer _total;
 
         public Integer getTotal()
         {
@@ -73,7 +79,7 @@ class MobileRiderEntityListDeserializer<EntityType> implements JsonDeserializer<
 
         public void setTotal(Integer total)
         {
-            if (total <= 0)
+            if (total < 0)
             {
                 throw new IllegalArgumentException("total");
             }

@@ -56,8 +56,8 @@ public class MobileRiderApiClient
 
         gsonBuilder.registerTypeAdapter(Media.class, new MobileRiderEntityDeserializer<Media>());
 
-        Class<List<Channel>> listOfChannelClass = (Class) List.class;
-        gsonBuilder.registerTypeAdapter(listOfChannelClass, new MobileRiderEntityListDeserializer<Channel>());
+        Class<Page<Channel>> pageOfChannelClass = (Class) Page.class;
+        gsonBuilder.registerTypeAdapter(pageOfChannelClass, new MobileRiderEntityListDeserializer<Channel>());
 
         Gson gson = gsonBuilder.create();
 

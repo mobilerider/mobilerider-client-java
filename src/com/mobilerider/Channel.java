@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class Channel
 {
     @SerializedName("id")
-    String _id;
+    private String _id;
 
     public String getId() {
         return _id;
@@ -16,7 +16,7 @@ public class Channel
     }
 
     @SerializedName("name")
-    String _name;
+    private String _name;
 
     public String getName()
     {
@@ -29,7 +29,7 @@ public class Channel
     }
 
     @SerializedName("description")
-    String _description;
+    private String _description;
 
     public String getDescription()
     {
