@@ -1,6 +1,5 @@
 package com.mobilerider;
 
-import java.util.List;
 import retrofit2.http.*;
 import retrofit2.Call;
 
