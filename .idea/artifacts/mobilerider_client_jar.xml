@@ -1,0 +1,15 @@
+<component name="ArtifactManager">
+  <artifact name="mobilerider-client:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/mobilerider_client_jar</output-path>
+    <root id="root">
+      <element id="archive" name="mobilerider-client.jar">
+        <element id="module-output" name="mobilerider-client" />
+      </element>
+      <element id="file-copy" path="$PROJECT_DIR$/lib/gson-2.6.2.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/lib/okio-1.8.0.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/lib/okhttp-3.3.1.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/lib/retrofit-2.1.0.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/lib/converter-gson-2.0.2.jar" />
+    </root>
+  </artifact>
+</component>
