@@ -1,13 +1,14 @@
 package com.mobilerider;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 public class Page<T> implements Iterable<T>
 {
-    private final List<T> _items;
+    private final Collection<T> _items;
 
-    private List<T> getItems()
+    private Collection<T> getItems()
     {
         return _items;
     }
@@ -53,7 +54,7 @@ public class Page<T> implements Iterable<T>
         return getPageCount() > 1;
     }
 
-    public Page(List<T> items, int pageSize, int index, int totalNumberOfItems)
+    public Page(Collection<T> items, int pageSize, int index, int totalNumberOfItems)
     {
         if (items == null)
         {
