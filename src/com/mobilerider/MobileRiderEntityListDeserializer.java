@@ -2,12 +2,32 @@ package com.mobilerider;
 
 import com.google.gson.*;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.internal.ObjectConstructor;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.List;
 
 class MobileRiderEntityListDeserializer<TEntity> implements JsonDeserializer<Page<TEntity>>
 {
+    private final Class<TEntity> _entityClass;
+
+    private Class<TEntity> getEntityClass()
+    {
+        return _entityClass;
+    }
+
+    public MobileRiderEntityListDeserializer(Class<TEntity> entityClass)
+    {
+        if (entityClass == null)
+        {
+            throw new IllegalArgumentException("entityClass");
+        }
+
+        _entityClass = entityClass;
+    }
+
     @Override
     public Page<TEntity> deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException
     {
@@ -22,11 +42,12 @@ class MobileRiderEntityListDeserializer<TEntity> implements JsonDeserializer<Pag
 
         // Deserialize it.
         // We use a new instance of Gson to avoid infinite recursion to this deserializer.
-        Class<List<TEntity>> listOfChannelClass = (Class) List.class;
+        TEntity[] arrayOfEntities = (TEntity[]) Array.newInstance(getEntityClass(), 0);
+        Class<TEntity[]> arrayOfEntityType = (Class<TEntity[]>) arrayOfEntities.getClass();
 
-        List<TEntity> entities = (new Gson().fromJson(objectsElement, listOfChannelClass));
+        TEntity[] entities = (new Gson().fromJson(objectsElement, arrayOfEntityType));
 
-        Page<TEntity> page = new Page<TEntity>(entities, meta.getPageSize(), meta.getPage() == 0 ? 0 : meta.getPage() - 1, meta.getTotal());
+        Page<TEntity> page = new Page<TEntity>(Arrays.asList(entities), meta.getPageSize(), meta.getPage() == 0 ? 0 : meta.getPage() - 1, meta.getTotal());
 
         return page;
     }
