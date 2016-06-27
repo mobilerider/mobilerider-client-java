@@ -11,7 +11,7 @@ public interface MobileRiderApiClientInterface
     @GET("channel/{id}")
     Call<Channel> channel(@Path("id") String channelId);
 
-    @GET("media")
+    @GET("media/?add_fields=files")
     Call<Page<Media>> mediaList(@Query("channelid") String channelId, @Query("page") Integer page, @Query("limit") Integer pageSize);
 
     @GET("media/{id}")
