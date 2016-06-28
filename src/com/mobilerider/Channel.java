@@ -2,8 +2,12 @@ package com.mobilerider;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Channel
+import java.io.Serializable;
+
+public class Channel implements Serializable
 {
+    private static final long serialVersionUID = -5439175926991676724L;
+
     @SerializedName("id")
     private String _id;
 

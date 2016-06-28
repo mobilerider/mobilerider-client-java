@@ -2,11 +2,14 @@ package com.mobilerider;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Media
+public class Media implements Serializable
 {
+    private static final long serialVersionUID = 6770928527452675692L;
+
     @SerializedName("id")
     private String _id;
 
