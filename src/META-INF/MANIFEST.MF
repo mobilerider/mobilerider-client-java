@@ -1,4 +1,5 @@
 Manifest-Version: 1.0
 Class-Path: gson-2.6.2.jar okio-1.8.0.jar okhttp-3.3.1.jar retrofit-2.
  1.0.jar converter-gson-2.0.2.jar
+Main-Class: 
 

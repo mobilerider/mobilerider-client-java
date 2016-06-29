@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact name="mobilerider-client:jar">
+  <artifact build-on-make="true" name="mobilerider-client:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/mobilerider_client_jar</output-path>
     <root id="root">
       <element id="archive" name="mobilerider-client.jar">
