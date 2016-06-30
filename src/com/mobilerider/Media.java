@@ -69,7 +69,7 @@ public class Media implements Serializable
 
 
     @SerializedName("thumbnails")
-    private Map<String, String> _thumbnailUris;
+    private final Map<String, String> _thumbnailUris;
 
     public Map<String, String> getThumbnailUris()
     {
@@ -77,7 +77,7 @@ public class Media implements Serializable
     }
 
     @SerializedName("files")
-    private Map<String, String> _mediaUris;
+    private final Map<String, String> _mediaUris;
 
     public Map<String, String> getMediaUris()
     {
