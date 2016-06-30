@@ -1,19 +1,23 @@
 package com.mobilerider;
 
-import retrofit2.http.*;
-import retrofit2.Call;
+import java.io.IOException;
+import java.util.List;
 
 public interface MobileRiderApiClientInterface
 {
-    @GET("channel?published=1")
-    Call<Page<Channel>> channelList(@Query("page") Integer page, @Query("limit") Integer pageSize);
+    Channel getChannelById(String channelId) throws IOException;
 
-    @GET("channel/{id}")
-    Call<Channel> channel(@Path("id") String channelId);
+    Media getMediaById(String mediaId) throws IOException;
 
-    @GET("media/?add_fields=files,views")
-    Call<Page<Media>> mediaList(@Query("channelid") String channelId, @Query("page") Integer page, @Query("limit") Integer pageSize);
+    List<Channel> getChannels() throws IOException;
 
-    @GET("media/{id}")
-    Call<Media> media(@Path("id") String mediaId);
+    Page<Channel> getChannels(Integer page) throws IOException;
+
+    Page<Channel> getChannels(Integer page, Integer pageSize) throws IOException;
+
+    List<Media> getMediaByChannel(String channelId) throws IOException;
+
+    Page<Media> getMediaByChannel(String channelId, Integer page) throws IOException;
+
+    Page<Media> getMediaByChannel(String channelId, Integer page, Integer pageSize) throws IOException;
 }

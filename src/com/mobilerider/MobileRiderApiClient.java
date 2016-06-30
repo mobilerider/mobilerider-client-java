@@ -1,72 +1,210 @@
 package com.mobilerider;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-public class MobileRiderApiClient
+public class MobileRiderApiClient implements MobileRiderApiClientInterface
 {
-    public static final String BASE_URL = "https://api.mobilerider.com/api/";
+    private static int _defaultPageSize = 20;
 
-    private MobileRiderApiClient()
+    public static int getDefaultPageSize()
     {
+        return _defaultPageSize;
     }
 
-    public static MobileRiderApiClientInterface create(String appId, String secret) throws IllegalArgumentException
+    public static void setDefaultPageSize(int defaultPageSize)
     {
-        if (appId == null || appId.length() == 0)
+        if (defaultPageSize <= 0)
+        {
+            throw new IllegalArgumentException("defaultPageSize");
+        }
+
+        _defaultPageSize = defaultPageSize;
+    }
+
+    private final String _appId;
+
+    public String getAppId()
+    {
+        return _appId;
+    }
+
+    private final String _secret;
+
+    public String getSecret()
+    {
+        return _secret;
+    }
+
+    private MobileRiderApiRetrofitClientInterface _innerClient;
+
+    private MobileRiderApiRetrofitClientInterface getInnerClient()
+    {
+        return _innerClient;
+    }
+
+    private void setInnerClient(MobileRiderApiRetrofitClientInterface innerClient)
+    {
+        if (innerClient == null)
+        {
+            throw new IllegalArgumentException("innerClient");
+        }
+
+        _innerClient = innerClient;
+    }
+
+    public MobileRiderApiClient(String appId, String secret)
+    {
+        if (appId == null || appId.isEmpty())
         {
             throw new IllegalArgumentException("appId");
         }
 
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        _appId = appId;
+        _secret = secret;
 
-        if (secret == null)
+        setInnerClient(MobileRiderApiRetrofitClient.create(getAppId(), getSecret()));
+    }
+
+    @Override
+    public Channel getChannelById(String channelId) throws IOException
+    {
+        // Returns null if item is not found.
+        return _innerClient.channel(channelId).execute().body();
+    }
+
+    @Override
+    public Media getMediaById(String mediaId) throws IOException
+    {
+        // Returns null if item is not found.
+        return _innerClient.media(mediaId).execute().body();
+    }
+
+    @Override
+    public List<Channel> getChannels() throws IOException
+    {
+        List<Channel> channels = new ArrayList<Channel>();
+
+        Page<Channel> page = getChannels(0);
+
+        assert(page != null);
+
+        for (Channel c : page)
         {
-            // Add interceptor to add "appid" parameter to the query string.
-
-            okhttp3.Interceptor interceptor =  new AddQueryStringParameterInterceptor("appid", appId);
-
-            builder.interceptors().add(interceptor);
+            channels.add(c);
         }
-        else
+
+        while (!page.isLast())
         {
-            // Add interceptor to add "Authorization" header.
+            page = getChannels(page.getIndex() + 1);
 
-            String authenticationToken = (appId) + ":" + secret;
+            assert(page != null);
 
-            authenticationToken = Base64.getMimeEncoder().encodeToString(authenticationToken.getBytes(StandardCharsets.UTF_8));
-
-            okhttp3.Interceptor interceptor =  new AddHeaderInterceptor("Authorization", "Basic " + authenticationToken);
-
-            builder.interceptors().add(interceptor);
+            for (Channel c : page)
+            {
+                channels.add(c);
+            }
         }
 
-        OkHttpClient client = builder.build();
+        return channels;
+    }
 
-        GsonBuilder gsonBuilder = new GsonBuilder();
+    @Override
+    public Page<Channel> getChannels(Integer page) throws IOException
+    {
+        if (page < 0)
+        {
+            throw new IllegalArgumentException("page");
+        }
 
-        gsonBuilder.registerTypeAdapter(Channel.class, new MobileRiderEntityDeserializer<Channel>());
+        return getChannels(page, getDefaultPageSize());
+    }
 
-        gsonBuilder.registerTypeAdapter(Media.class, new MobileRiderEntityDeserializer<Media>());
+    @Override
+    public Page<Channel> getChannels(Integer page, Integer pageSize) throws IOException
+    {
+        if (page < 0)
+        {
+            throw new IllegalArgumentException("page");
+        }
 
-        gsonBuilder.registerTypeAdapter(new TypeToken<Page<Channel>>(){}.getType(), new MobileRiderEntityListDeserializer<Channel>(Channel.class));
-        gsonBuilder.registerTypeAdapter(new TypeToken<Page<Media>>(){}.getType(), new MobileRiderEntityListDeserializer<Media>(Media.class));
+        if (pageSize <= 0)
+        {
+            throw new IllegalArgumentException("pageSize");
+        }
 
-        Gson gson = gsonBuilder.create();
+        return _innerClient.channelList(page + 1, pageSize).execute().body();
+    }
 
-        Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build();
+    @Override
+    public List<Media> getMediaByChannel(String channelId) throws IOException
+    {
+        if (channelId == null || channelId.isEmpty())
+        {
+            throw new IllegalArgumentException("channelId");
+        }
 
-        return retrofit.create(MobileRiderApiClientInterface.class);
+        List<Media> media = new ArrayList<Media>();
+
+        Page<Media> page = getMediaByChannel(channelId, 0);
+
+        assert(page != null);
+
+        for (Media m : page)
+        {
+            media.add(m);
+        }
+
+        while (!page.isLast())
+        {
+            page = getMediaByChannel(channelId, page.getIndex() + 1);
+
+            assert(page != null);
+
+            for (Media m : page)
+            {
+                media.add(m);
+            }
+        }
+
+        return media;
+    }
+
+    @Override
+    public Page<Media> getMediaByChannel(String channelId, Integer page) throws IOException
+    {
+        if (channelId == null || channelId.isEmpty())
+        {
+            throw new IllegalArgumentException("channelId");
+        }
+
+        if (page < 0)
+        {
+            throw new IllegalArgumentException("page");
+        }
+
+        return getMediaByChannel(channelId, page, getDefaultPageSize());
+    }
+
+    @Override
+    public Page<Media> getMediaByChannel(String channelId, Integer page, Integer pageSize) throws IOException
+    {
+        if (channelId == null || channelId.isEmpty())
+        {
+            throw new IllegalArgumentException("channelId");
+        }
+
+        if (page < 0)
+        {
+            throw new IllegalArgumentException("page");
+        }
+
+        if (pageSize <= 0)
+        {
+            throw new IllegalArgumentException("pageSize");
+        }
+
+        return _innerClient.mediaList(channelId, page + 1, pageSize).execute().body();
     }
 }
