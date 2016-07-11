@@ -11,7 +11,7 @@ interface MobileRiderApiRetrofitClientInterface
     @GET("channel/{id}")
     Call<Channel> channel(@Path("id") String channelId);
 
-    @GET("media/?add_fields=files,views")
+    @GET("media/?mediatypeid=2&add_fields=files,views")
     Call<Page<Media>> mediaList(@Query("channelid") String channelId, @Query("page") Integer page, @Query("limit") Integer pageSize);
 
     @GET("media/{id}")
