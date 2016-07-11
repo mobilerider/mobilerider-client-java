@@ -84,6 +84,35 @@ public class Media implements Serializable
         return _mediaUris;
     }
 
+    public String getMediaUri(String... tags)
+    {
+        if (tags == null || tags.length == 0)
+        {
+            throw new IllegalArgumentException("tags");
+        }
+
+        for (String tagSet : getMediaUris().keySet())
+        {
+            Boolean isMatch = true;
+
+            for (String tag : tags)
+            {
+                if (!tagSet.contains(tag))
+                {
+                    isMatch = false;
+                    break;
+                }
+            }
+
+            if (isMatch)
+            {
+                return getMediaUris().get(tagSet);
+            }
+        }
+
+        return null;
+    }
+
     public Media()
     {
         _thumbnailUris = new HashMap<String, String>();
