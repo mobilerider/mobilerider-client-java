@@ -3,7 +3,9 @@ package com.mobilerider;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Media implements Serializable
@@ -91,8 +93,10 @@ public class Media implements Serializable
             throw new IllegalArgumentException("tags");
         }
 
-        for (String tagSet : getMediaUris().keySet())
+        for (String key : getMediaUris().keySet())
         {
+            List<String> tagSet = Arrays.asList(key.split(","));
+
             Boolean isMatch = true;
 
             for (String tag : tags)
