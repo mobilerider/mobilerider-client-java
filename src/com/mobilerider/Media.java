@@ -110,7 +110,7 @@ public class Media implements Serializable
 
             if (isMatch)
             {
-                return getMediaUris().get(tagSet);
+                return getMediaUris().get(key);
             }
         }
 
