@@ -70,6 +70,14 @@ public class Media implements Serializable
     }
 
 
+    @SerializedName("duration")
+    private long _duration;
+
+    public long getDuration()
+    {
+        return _duration;
+    }
+
     @SerializedName("thumbnails")
     private final Map<String, String> _thumbnailUris;
 
